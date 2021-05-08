@@ -84,18 +84,14 @@ while (cap.isOpened()):
 
     results = hands.process(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 
-    #핸드를 인식하면 처리 되는 코드
+    # 손을 인식하면 처리 되는 코드
     if success == True:
       if results.multi_hand_landmarks:
-        for handLandmarks in results.multi_hand_landmarks:
-          #핸드의 각 관절 포인트의 ID와 좌표를 알아 내서 원하는 그림을 그려 넣을 수 있다. 
+        for handLandmarks in results.multi_hand_landmarks: 
           for id, lm in enumerate(handLandmarks.landmark):
             h, w, c = img.shape
             cx, cy = int(lm.x * w), int(lm.y * h)
-            #손목관절
-            if id == 0:
-              cv2.circle(img, (cx, cy), 10, (180, 255, 255), cv2.FILLED)
-            #중지 끝
+            # 검지 끝
             if id == 8:
               cv2.circle(img, (cx, cy), 15, (90, 180, 0), cv2.FILLED)
                       
@@ -106,7 +102,7 @@ while (cap.isOpened()):
               else:
                 status = "?"
 
-          #인식된 핸드에 점과 선을 그려 넣는다.
+          # 인식된 손에 점과 선을 그려 넣는다.
           mpDraw.draw_landmarks(img, handLandmarks, mpHands.HAND_CONNECTIONS)
 
       cv2.putText(img, status,(10, 70), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), 3)
